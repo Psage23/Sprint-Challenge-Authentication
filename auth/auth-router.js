@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Users = require('../users/users-model.js');
 const secrets = require('../config/secrets.js');
-
+const authorize = require('./authenticate-middleware.js');
 
 router.post('/register', (req, res) => {
   let user = req.body;
@@ -19,7 +19,7 @@ router.post('/register', (req, res) => {
     });
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', authorize, (req, res) => {
   let { username, password } = req.body;
 
   Users.findBy({ username })
